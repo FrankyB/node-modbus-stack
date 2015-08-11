@@ -50,7 +50,7 @@ Client.REQUESTS = {
   3: putTwoWord16be,
   // READ_INPUT_REGISTERS
   4: putTwoWord16be,
-  // WRITE_SINGLE_COIL
+  // WRITE_SINGLE_REGISTER:
   5: function(address, value) {
     if (typeof value !== 'boolean') throw new Error('"Write Single Coil" expects a \'boolean\' value');
     return putTwoWord16be(address, value ? 0xff00 : 0x0000);
@@ -70,8 +70,7 @@ Client.RESPONSES = {
     }
     return rtn;
   },
-  // WRITE_SINGLE_COIL
-  5: function(bufferlist) {
+  3: function(bufferlist) {
     var rtn = [];
     var binary = Binary(bufferlist)
       .getWord8('byteLength').end();
@@ -81,5 +80,5 @@ Client.RESPONSES = {
       rtn.push(binary.end().vars.val);
     }
     return rtn;
-  },
+  }
 };
